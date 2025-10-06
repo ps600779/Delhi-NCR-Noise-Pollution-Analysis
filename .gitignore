@@ -1,0 +1,48 @@
+# Ignore data exports and large files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# large files
+Team_XX_CleanedData.csv
+Team_XX_Noise_Stations.geojson
+DELHI_DISTRICTS.geojson
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two newlines
+# Thumbnails
+._*
+
+# VS Code
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Ignore compiled objects
+*.o
+*.so
+
+# Node
+node_modules/
+
+# Other common
+Thumbs.db
+
