@@ -9,6 +9,7 @@
 Team_XX_CleanedData.csv
 Team_XX_Noise_Stations.geojson
 DELHI_DISTRICTS.geojson
+output_merged_csv.zip
 
 # macOS system files
 .DS_Store
@@ -35,13 +36,23 @@ __pycache__/
 
 # Environment
 .env
+.env.local
+.env.production
 
 # Ignore compiled objects
 *.o
 *.so
 
-# Node
+# Node (for React dashboard)
 node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Build outputs
+build/
+.next/
+out/
 
 # Other common
 Thumbs.db
