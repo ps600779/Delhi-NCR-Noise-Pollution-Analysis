@@ -1,0 +1,10 @@
+Location,Zone_Type,Avg_Excess_dBA,Max_Excess_dBA,Severity_Category
+CPCBHQ,Commercial,2.924797302404823,42.25,Low
+Dilshad,Residential,7.914989698407687,110.17950439453,Moderate
+centralschool,Silence,11.300527232751719,58.021057128905994,High
+civil_lines,Residential,8.075375289371427,200.70570373535,Moderate
+isbt,Commercial,5.130241301748993,42.676773071289006,Moderate
+ito,Commercial,10.35843228471571,129.79490661621,High
+mandir_marg,Residential,8.806024476420596,99.71859741211,Moderate
+nsit,Silence,9.371763722310398,72.99600219727,Moderate
+punjabi,Residential,6.323897328622673,66.67569732666,Moderate
