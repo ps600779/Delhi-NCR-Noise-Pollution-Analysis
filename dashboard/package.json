@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "validate": "node validate-csv.js",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
