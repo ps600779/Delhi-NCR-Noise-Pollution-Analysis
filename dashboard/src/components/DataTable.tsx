@@ -59,55 +59,55 @@ export function DataTable({ title, data, type }: DataTableProps) {
     if (type === 'rankings') {
       return (
         <>
-          <TableHead>
-            <Button variant="ghost" onClick={() => handleSort('Location')} className="flex items-center gap-1 font-semibold">
+          <TableHead className="text-center">
+            <Button variant="ghost" onClick={() => handleSort('Location')} className="flex items-center gap-1 font-semibold mx-auto">
               Location <ArrowUpDown className="h-4 w-4" />
             </Button>
           </TableHead>
-          <TableHead>
-            <Button variant="ghost" onClick={() => handleSort('Average_LAeq_dBA')} className="flex items-center gap-1 font-semibold">
+          <TableHead className="text-center">
+            <Button variant="ghost" onClick={() => handleSort('Average_LAeq_dBA')} className="flex items-center gap-1 font-semibold mx-auto">
               Avg Noise (dBA) <ArrowUpDown className="h-4 w-4" />
             </Button>
           </TableHead>
-          <TableHead>Zone Type</TableHead>
-          <TableHead>Day Limit</TableHead>
-          <TableHead>Night Limit</TableHead>
+          <TableHead className="text-center">Zone Type</TableHead>
+          <TableHead className="text-center">Day Limit</TableHead>
+          <TableHead className="text-center">Night Limit</TableHead>
         </>
       );
     } else if (type === 'exceedance') {
       return (
         <>
-          <TableHead>
-            <Button variant="ghost" onClick={() => handleSort('Location')} className="flex items-center gap-1 font-semibold">
+          <TableHead className="text-center">
+            <Button variant="ghost" onClick={() => handleSort('Location')} className="flex items-center gap-1 font-semibold mx-auto">
               Location <ArrowUpDown className="h-4 w-4" />
             </Button>
           </TableHead>
-          <TableHead>Zone Type</TableHead>
-          <TableHead>
-            <Button variant="ghost" onClick={() => handleSort('Exceedance_Percentage')} className="flex items-center gap-1 font-semibold">
+          <TableHead className="text-center">Zone Type</TableHead>
+          <TableHead className="text-center">
+            <Button variant="ghost" onClick={() => handleSort('Exceedance_Percentage')} className="flex items-center gap-1 font-semibold mx-auto">
               Violation % <ArrowUpDown className="h-4 w-4" />
             </Button>
           </TableHead>
-          <TableHead>Exceedances</TableHead>
-          <TableHead>Total Count</TableHead>
+          <TableHead className="text-center">Exceedances</TableHead>
+          <TableHead className="text-center">Total Count</TableHead>
         </>
       );
     } else {
       return (
         <>
-          <TableHead>
-            <Button variant="ghost" onClick={() => handleSort('Location')} className="flex items-center gap-1 font-semibold">
+          <TableHead className="text-center">
+            <Button variant="ghost" onClick={() => handleSort('Location')} className="flex items-center gap-1 font-semibold mx-auto">
               Location <ArrowUpDown className="h-4 w-4" />
             </Button>
           </TableHead>
-          <TableHead>Zone Type</TableHead>
-          <TableHead>
-            <Button variant="ghost" onClick={() => handleSort('Avg_Excess_dBA')} className="flex items-center gap-1 font-semibold">
+          <TableHead className="text-center">Zone Type</TableHead>
+          <TableHead className="text-center">
+            <Button variant="ghost" onClick={() => handleSort('Avg_Excess_dBA')} className="flex items-center gap-1 font-semibold mx-auto">
               Avg Excess (dBA) <ArrowUpDown className="h-4 w-4" />
             </Button>
           </TableHead>
-          <TableHead>Max Excess (dBA)</TableHead>
-          <TableHead>Severity</TableHead>
+          <TableHead className="text-center">Max Excess (dBA)</TableHead>
+          <TableHead className="text-center">Severity</TableHead>
         </>
       );
     }
@@ -118,28 +118,28 @@ export function DataTable({ title, data, type }: DataTableProps) {
       const r = row as StationRanking;
       return (
         <TableRow key={index}>
-          <TableCell className="font-medium">{r.Location || 'N/A'}</TableCell>
-          <TableCell className="font-semibold text-red-600">
+          <TableCell className="font-medium text-center">{r.Location || 'N/A'}</TableCell>
+          <TableCell className="font-semibold text-red-600 text-center">
             {typeof r.Average_LAeq_dBA === 'number' ? r.Average_LAeq_dBA.toFixed(1) : 'N/A'}
           </TableCell>
-          <TableCell>{r.Zone_Type || 'N/A'}</TableCell>
-          <TableCell>{r.Day_Limit_dBA || 'N/A'}</TableCell>
-          <TableCell>{r.Night_Limit_dBA || 'N/A'}</TableCell>
+          <TableCell className="text-center">{r.Zone_Type || 'N/A'}</TableCell>
+          <TableCell className="text-center">{r.Day_Limit_dBA || 'N/A'}</TableCell>
+          <TableCell className="text-center">{r.Night_Limit_dBA || 'N/A'}</TableCell>
         </TableRow>
       );
     } else if (type === 'exceedance') {
       const r = row as ExceedanceSummary;
       return (
         <TableRow key={index}>
-          <TableCell className="font-medium">{r.Location || 'N/A'}</TableCell>
-          <TableCell>{r.Zone_Type || 'N/A'}</TableCell>
-          <TableCell className="font-semibold text-orange-600">
+          <TableCell className="font-medium text-center">{r.Location || 'N/A'}</TableCell>
+          <TableCell className="text-center">{r.Zone_Type || 'N/A'}</TableCell>
+          <TableCell className="font-semibold text-orange-600 text-center">
             {typeof r.Exceedance_Percentage === 'number' ? r.Exceedance_Percentage.toFixed(1) : 'N/A'}%
           </TableCell>
-          <TableCell>
+          <TableCell className="text-center">
             {typeof r.Exceedance_Count === 'number' ? r.Exceedance_Count.toLocaleString() : 'N/A'}
           </TableCell>
-          <TableCell>
+          <TableCell className="text-center">
             {typeof r.Total_Count === 'number' ? r.Total_Count.toLocaleString() : 'N/A'}
           </TableCell>
         </TableRow>
@@ -148,15 +148,15 @@ export function DataTable({ title, data, type }: DataTableProps) {
       const r = row as ViolationSeverity;
       return (
         <TableRow key={index}>
-          <TableCell className="font-medium">{r.Location || 'N/A'}</TableCell>
-          <TableCell>{r.Zone_Type || 'N/A'}</TableCell>
-          <TableCell className="font-semibold">
+          <TableCell className="font-medium text-center">{r.Location || 'N/A'}</TableCell>
+          <TableCell className="text-center">{r.Zone_Type || 'N/A'}</TableCell>
+          <TableCell className="font-semibold text-center">
             {typeof r.Avg_Excess_dBA === 'number' ? r.Avg_Excess_dBA.toFixed(1) : 'N/A'}
           </TableCell>
-          <TableCell>
+          <TableCell className="text-center">
             {typeof r.Max_Excess_dBA === 'number' ? r.Max_Excess_dBA.toFixed(1) : 'N/A'}
           </TableCell>
-          <TableCell>
+          <TableCell className="text-center">
             <Badge variant={getSeverityColor(r.Severity_Category) as "default" | "destructive" | "secondary" | "outline"}>
               {r.Severity_Category || 'N/A'}
             </Badge>

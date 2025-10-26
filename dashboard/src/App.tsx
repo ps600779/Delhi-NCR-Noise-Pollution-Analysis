@@ -3,6 +3,8 @@ import { Header } from './components/Header';
 import { KeyMetrics } from './components/KeyMetrics';
 import { ChartCard } from './components/ChartCard';
 import { DataTable } from './components/DataTable';
+import PredictiveMapDashboard from './components/PredictiveMapDashboard';
+import 'leaflet/dist/leaflet.css';
 import {
   fetchCSV,
   calculateKeyMetrics,
@@ -12,6 +14,7 @@ import {
 } from './lib/dataUtils';
 
 function App() {
+  const [activeTab, setActiveTab] = useState<'analysis' | 'predictive'>('analysis');
   const [stationRankings, setStationRankings] = useState<StationRanking[]>([]);
   const [exceedanceSummary, setExceedanceSummary] = useState<ExceedanceSummary[]>([]);
   const [violationSeverity, setViolationSeverity] = useState<ViolationSeverity[]>([]);
@@ -48,84 +51,117 @@ function App() {
     <div className="min-h-screen bg-slate-50">
       <Header />
       
-      <main className="container mx-auto px-6 py-8">
-        {/* Key Metrics Bar */}
-        <KeyMetrics {...keyMetrics} />
-
-        {/* Main Dashboard Grid */}
-        <div className="space-y-8">
-          {/* Data Tables Section */}
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Detailed Analysis Tables</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <DataTable
-                title="Station Rankings (Loudest First)"
-                data={stationRankings}
-                type="rankings"
-              />
-              <DataTable
-                title="Exceedance Summary"
-                data={exceedanceSummary}
-                type="exceedance"
-              />
-            </div>
-            <div className="mt-6">
-              <DataTable
-                title="Violation Severity Analysis"
-                data={violationSeverity}
-                type="severity"
-              />
-            </div>
-          </section>
-
-          {/* Visualizations Section */}
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Interactive Visualizations</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <ChartCard
-                title="Noise Hotspots Across Delhi NCR"
-                imagePath="/visualizations/Visualizations/03_hotspot_map.png"
-                description="Spatial distribution of noise pollution across monitoring stations"
-              />
-              <ChartCard
-                title="Comparative Noise Levels"
-                imagePath="/visualizations/Visualizations/02_comparative_boxplot.png"
-                description="Box plot comparison showing distribution of noise levels by location"
-              />
-              <ChartCard
-                title="Hourly Noise Trends"
-                imagePath="/visualizations/Visualizations/04_hourly_noise_trends.png"
-                description="Average noise levels throughout the day"
-              />
-              <ChartCard
-                title="Time Series Analysis - ITO"
-                imagePath="/visualizations/Visualizations/01_timeseries_ito.png"
-                description="Temporal trends in noise levels at ITO station"
-              />
-              <ChartCard
-                title="Exceedance Choropleth Map"
-                imagePath="/visualizations/Visualizations/05_exceedance_choropleth_map.png"
-                description="Geographic visualization of violation rates by district"
-              />
-              <ChartCard
-                title="Violation Severity Map"
-                imagePath="/visualizations/Visualizations/06_violation_severity_map.png"
-                description="Spatial analysis of noise violation severity"
-              />
-              <ChartCard
-                title="Spatial Interpolation"
-                imagePath="/visualizations/Visualizations/07_spatial_interpolation_map.png"
-                description="Interpolated noise levels across Delhi NCR"
-              />
-              <ChartCard
-                title="Hexbin Interpolation"
-                imagePath="/visualizations/Visualizations/08_hexbin_interpolation_map.png"
-                description="Hexagonal binning visualization of noise distribution"
-              />
-            </div>
-          </section>
+      {/* Tab Navigation */}
+      <div className="bg-white border-b border-slate-200">
+        <div className="container mx-auto px-6">
+          <div className="flex space-x-1">
+            <button
+              onClick={() => setActiveTab('analysis')}
+              className={`px-6 py-3 font-semibold transition-colors ${
+                activeTab === 'analysis'
+                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              📊 Statistical Analysis
+            </button>
+            <button
+              onClick={() => setActiveTab('predictive')}
+              className={`px-6 py-3 font-semibold transition-colors ${
+                activeTab === 'predictive'
+                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              🗺️ Predictive Map
+            </button>
+          </div>
         </div>
-      </main>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'analysis' ? (
+        <main className="container mx-auto px-6 py-8">
+          {/* Key Metrics Bar */}
+          <KeyMetrics {...keyMetrics} />
+
+          {/* Main Dashboard Grid */}
+          <div className="space-y-8">
+            {/* Data Tables Section */}
+            <section>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Detailed Analysis Tables</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <DataTable
+                  title="Station Rankings (Loudest First)"
+                  data={stationRankings}
+                  type="rankings"
+                />
+                <DataTable
+                  title="Exceedance Summary"
+                  data={exceedanceSummary}
+                  type="exceedance"
+                />
+              </div>
+              <div className="mt-6">
+                <DataTable
+                  title="Violation Severity Analysis"
+                  data={violationSeverity}
+                  type="severity"
+                />
+              </div>
+            </section>
+
+            {/* Visualizations Section */}
+            <section>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Interactive Visualizations</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <ChartCard
+                  title="Noise Hotspots Across Delhi NCR"
+                  imagePath="/visualizations/Visualizations/03_hotspot_map.png"
+                  description="Spatial distribution of noise pollution across monitoring stations"
+                />
+                <ChartCard
+                  title="Comparative Noise Levels"
+                  imagePath="/visualizations/Visualizations/02_comparative_boxplot.png"
+                  description="Box plot comparison showing distribution of noise levels by location"
+                />
+                <ChartCard
+                  title="Hourly Noise Trends"
+                  imagePath="/visualizations/Visualizations/04_hourly_noise_trends.png"
+                  description="Average noise levels throughout the day"
+                />
+                <ChartCard
+                  title="Time Series Analysis - ITO"
+                  imagePath="/visualizations/Visualizations/01_timeseries_ito.png"
+                  description="Temporal trends in noise levels at ITO station"
+                />
+                <ChartCard
+                  title="Exceedance Choropleth Map"
+                  imagePath="/visualizations/Visualizations/05_exceedance_choropleth_map.png"
+                  description="Geographic visualization of violation rates by district"
+                />
+                <ChartCard
+                  title="Violation Severity Map"
+                  imagePath="/visualizations/Visualizations/06_violation_severity_map.png"
+                  description="Spatial analysis of noise violation severity"
+                />
+                <ChartCard
+                  title="Spatial Interpolation"
+                  imagePath="/visualizations/Visualizations/07_spatial_interpolation_map.png"
+                  description="Interpolated noise levels across Delhi NCR"
+                />
+                <ChartCard
+                  title="Hexbin Interpolation"
+                  imagePath="/visualizations/Visualizations/08_hexbin_interpolation_map.png"
+                  description="Hexagonal binning visualization of noise distribution"
+                />
+              </div>
+            </section>
+          </div>
+        </main>
+      ) : (
+        <PredictiveMapDashboard />
+      )}
     </div>
   );
 }
