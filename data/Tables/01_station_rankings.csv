@@ -1,0 +1,10 @@
+Location,Average_LAeq_dBA,Zone_Type,Day_Limit_dBA,Night_Limit_dBA
+ito,70.60643872995007,Commercial,65,55
+isbt,65.61274691055849,Commercial,65,55
+CPCBHQ,61.04023931498387,Commercial,65,55
+civil_lines,59.11006787673029,Residential,55,45
+centralschool,57.27559685261253,Silence,50,40
+punjabi,56.20034996721574,Residential,55,45
+mandir_marg,55.543971807685224,Residential,55,45
+nsit,54.286420799062725,Silence,50,40
+Dilshad,52.43964226749178,Residential,55,45
