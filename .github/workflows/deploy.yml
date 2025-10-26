@@ -9,7 +9,7 @@ on:
   workflow_dispatch:  # Allow manual trigger
 
 permissions:
-  contents: read
+  contents: write  # Changed from 'read' to 'write' to allow pushing to gh-pages
   pages: write
   id-token: write
 
