@@ -1,0 +1,81 @@
+# Ignore data exports and large files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Large CSV and GeoJSON files
+Team_XX_CleanedData.csv
+Team_17_CleanedData.csv
+Team_*_CleanedData.csv
+Team_XX_Noise_Stations.geojson
+Team_17_Noise_Stations.geojson
+Team_*_Noise_Stations.geojson
+DELHI_DISTRICTS.geojson
+output_merged_csv.zip
+
+# Large data files (general patterns)
+*.csv
+!Tables/*.csv
+*.geojson
+*.kml
+*.shp
+*.dbf
+*.shx
+
+# ML model files (often large)
+*.pkl
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.onnx
+*.pb
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two newlines
+# Thumbnails
+._*
+
+# VS Code
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Ignore compiled objects
+*.o
+*.so
+
+# Node (for React dashboard)
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Build outputs
+build/
+.next/
+out/
+
+# Other common
+Thumbs.db
+
