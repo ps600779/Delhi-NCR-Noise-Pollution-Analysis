@@ -101,9 +101,11 @@ export function calculateKeyMetrics(stationRankings: StationRanking[], exceedanc
  */
 export async function fetchCSV<T>(filename: string): Promise<T[]> {
   try {
-    const response = await fetch(`/data/Tables/${filename}`);
+    // Use relative path that works in both dev and production
+    const basePath = import.meta.env.BASE_URL || '/';
+    const response = await fetch(`${basePath}data/Tables/${filename}`);
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${filename}`);
+      throw new Error(`Failed to fetch ${filename}: ${response.status}`);
     }
     const csvText = await response.text();
     return parseCSV<T>(csvText);

@@ -14,10 +14,13 @@ import {
 } from './lib/dataUtils';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'analysis' | 'predictive'>('analysis');
   const [stationRankings, setStationRankings] = useState<StationRanking[]>([]);
   const [exceedanceSummary, setExceedanceSummary] = useState<ExceedanceSummary[]>([]);
   const [violationSeverity, setViolationSeverity] = useState<ViolationSeverity[]>([]);
+  const [activeTab, setActiveTab] = useState<'analysis' | 'prediction'>('analysis');
+
+  // Get the base URL for assets
+  const basePath = import.meta.env.BASE_URL || '/';
   const [keyMetrics, setKeyMetrics] = useState({
     loudestStation: 'Loading...',
     highestAvgNoise: 0,
@@ -66,9 +69,9 @@ function App() {
               📊 Statistical Analysis
             </button>
             <button
-              onClick={() => setActiveTab('predictive')}
+              onClick={() => setActiveTab('prediction')}
               className={`px-6 py-3 font-semibold transition-colors ${
-                activeTab === 'predictive'
+                activeTab === 'prediction'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
@@ -117,42 +120,42 @@ function App() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <ChartCard
                   title="Noise Hotspots Across Delhi NCR"
-                  imagePath="/visualizations/Visualizations/03_hotspot_map.png"
+                  imagePath={`${basePath}visualizations/Visualizations/03_hotspot_map.png`}
                   description="Spatial distribution of noise pollution across monitoring stations"
                 />
                 <ChartCard
                   title="Comparative Noise Levels"
-                  imagePath="/visualizations/Visualizations/02_comparative_boxplot.png"
+                  imagePath={`${basePath}visualizations/Visualizations/02_comparative_boxplot.png`}
                   description="Box plot comparison showing distribution of noise levels by location"
                 />
                 <ChartCard
                   title="Hourly Noise Trends"
-                  imagePath="/visualizations/Visualizations/04_hourly_noise_trends.png"
+                  imagePath={`${basePath}visualizations/Visualizations/04_hourly_noise_trends.png`}
                   description="Average noise levels throughout the day"
                 />
                 <ChartCard
                   title="Time Series Analysis - ITO"
-                  imagePath="/visualizations/Visualizations/01_timeseries_ito.png"
+                  imagePath={`${basePath}visualizations/Visualizations/01_timeseries_ito.png`}
                   description="Temporal trends in noise levels at ITO station"
                 />
                 <ChartCard
                   title="Exceedance Choropleth Map"
-                  imagePath="/visualizations/Visualizations/05_exceedance_choropleth_map.png"
+                  imagePath={`${basePath}visualizations/Visualizations/05_exceedance_choropleth_map.png`}
                   description="Geographic visualization of violation rates by district"
                 />
                 <ChartCard
                   title="Violation Severity Map"
-                  imagePath="/visualizations/Visualizations/06_violation_severity_map.png"
+                  imagePath={`${basePath}visualizations/Visualizations/06_violation_severity_map.png`}
                   description="Spatial analysis of noise violation severity"
                 />
                 <ChartCard
                   title="Spatial Interpolation"
-                  imagePath="/visualizations/Visualizations/07_spatial_interpolation_map.png"
+                  imagePath={`${basePath}visualizations/Visualizations/07_spatial_interpolation_map.png`}
                   description="Interpolated noise levels across Delhi NCR"
                 />
                 <ChartCard
                   title="Hexbin Interpolation"
-                  imagePath="/visualizations/Visualizations/08_hexbin_interpolation_map.png"
+                  imagePath={`${basePath}visualizations/Visualizations/08_hexbin_interpolation_map.png`}
                   description="Hexagonal binning visualization of noise distribution"
                 />
               </div>

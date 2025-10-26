@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
@@ -111,27 +110,74 @@ const PredictiveMapDashboard: React.FC = () => {
     }
   };
 
-  // Function to fetch predictions
+  // Generate static dummy predictions (no backend needed)
+  const generateStaticPredictions = (hour: number, dayOfWeek: number, noiseLag: number): MapDataPoint[] => {
+    const locations = [
+      { name: 'nsit', lat: 28.61, lon: 77.04, zone: 'Silence Zone', baseNoise: 65 },
+      { name: 'ito', lat: 28.631, lon: 77.248, zone: 'Commercial', baseNoise: 76 },
+      { name: 'punjabi', lat: 28.66, lon: 77.12, zone: 'Residential', baseNoise: 72 },
+      { name: 'isbt', lat: 28.667, lon: 77.231, zone: 'Commercial', baseNoise: 75 },
+      { name: 'mandir_marg', lat: 28.628, lon: 77.203, zone: 'Commercial', baseNoise: 68 },
+      { name: 'civil_lines', lat: 28.678, lon: 77.222, zone: 'Residential', baseNoise: 70 },
+      { name: 'CPCBHQ', lat: 28.59, lon: 77.25, zone: 'Commercial', baseNoise: 66 },
+      { name: 'Dilshad', lat: 28.68, lon: 77.31, zone: 'Residential', baseNoise: 64 },
+      { name: 'centralschool', lat: 28.53, lon: 77.25, zone: 'Silence Zone', baseNoise: 62 },
+    ];
+
+    const noiseLimits: Record<string, { day: number; night: number }> = {
+      'Industrial': { day: 75, night: 70 },
+      'Commercial': { day: 65, night: 55 },
+      'Residential': { day: 55, night: 45 },
+      'Silence Zone': { day: 50, night: 40 },
+    };
+
+    return locations.map(loc => {
+      // Time of day factor
+      let timeFactor = 0;
+      if (hour >= 8 && hour <= 10) timeFactor = 4.5;
+      else if (hour >= 17 && hour <= 20) timeFactor = 6.0;
+      else if (hour >= 0 && hour <= 5) timeFactor = -8.0;
+
+      // Day of week factor
+      const dayFactor = dayOfWeek >= 5 ? -3.5 : 0;
+
+      // Calculate noise
+      const environmentalNoise = loc.baseNoise + timeFactor + dayFactor;
+      const predictedNoise = (0.6 * noiseLag) + (0.4 * environmentalNoise) + (Math.random() * 3 - 1.5);
+      
+      // Determine limit
+      const isNight = hour >= 22 || hour < 6;
+      const limit = noiseLimits[loc.zone][isNight ? 'night' : 'day'];
+      
+      return {
+        location: loc.name,
+        latitude: loc.lat,
+        longitude: loc.lon,
+        predicted_noise: parseFloat(predictedNoise.toFixed(2)),
+        zone_type: loc.zone,
+        noise_limit: limit,
+        is_violation: predictedNoise > limit,
+        confidence: parseFloat((0.75 + Math.random() * 0.2).toFixed(2)),
+      };
+    });
+  };
+
+  // Function to fetch predictions (now uses static data)
   const fetchPredictions = async (): Promise<void> => {
     setIsLoading(true);
     setError('');
     setLoadingProgress(0);
     
     try {
-      // Run loading simulation and API call in parallel
-      const results = await Promise.all([
-        simulateLoading(),
-        axios.post<MapDataPoint[]>('http://127.0.0.1:5000/predict_map', {
-          hour, 
-          day_of_week: dayOfWeek, 
-          noise_lag_1hr: noiseLag 
-        })
-      ]);
+      // Just run the loading simulation
+      await simulateLoading();
       
-      setMapData(results[1].data);
+      // Generate static predictions
+      const predictions = generateStaticPredictions(hour, dayOfWeek, noiseLag);
+      setMapData(predictions);
       setUpdateKey(prev => prev + 1); // Force map update
     } catch (err) {
-      setError('Failed to fetch predictions. Is the backend server running?');
+      setError('Failed to generate predictions. Please try again.');
       console.error(err);
     } finally {
       setIsLoading(false);
